@@ -40,6 +40,7 @@ describe('Create Contact Use Case', () => {
       .mockImplementation(() => Promise.resolve(true));
     const createContactUseCase = new CreateContact(mockContactRepository);
     const result = await createContactUseCase.execute(InputData);
+
     expect(mockContactRepository.createContact).toBeCalledTimes(1);
   });
 });
