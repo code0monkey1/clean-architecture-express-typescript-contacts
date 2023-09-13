@@ -37,7 +37,9 @@ describe('Get All Contacts Use Case', () => {
     jest
       .spyOn(mockContactRepository, 'getContacts')
       .mockImplementation(() => Promise.resolve(ExpectedResult));
+
     const getAllContactsUse = new GetAllContacts(mockContactRepository);
+
     const result = await getAllContactsUse.execute();
     expect(result).toStrictEqual(ExpectedResult);
   });
