@@ -100,6 +100,7 @@ describe('Contact Router', () => {
         firstName: 'John',
         email: 'john@gmail.com',
       };
+
       jest
         .spyOn(mockCreateContactUseCase, 'execute')
         .mockImplementation(() => Promise.reject(Error()));
