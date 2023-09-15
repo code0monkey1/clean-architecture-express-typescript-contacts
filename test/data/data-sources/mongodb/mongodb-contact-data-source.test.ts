@@ -40,7 +40,7 @@ describe('MongoDB DataSource', () => {
 
   test('deleteOne', async () => {
     const ds = new MongoDBContactDataSource(mockDatabase);
-    await ds.deleteOne('1');
+    const result = await ds.deleteOne('1');
     expect(mockDatabase.deleteOne).toHaveBeenCalledWith('1');
   });
 
