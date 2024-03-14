@@ -9,6 +9,7 @@ import { CreateContact } from "./domain/use-cases/contact/create-contact";
 import { GetAllContacts } from "./domain/use-cases/contact/get-all-contacts";
 import ContactRouter from "./presentation/routers/contact-router";
 import server from "./server";
+import { Response, Request, NextFunction } from "express";
 async function getMongoDS() {
   const client: MongoClient = new MongoClient(
     "mongodb://localhost:27017/contacts"
@@ -37,6 +38,9 @@ async function getPGDS() {
   });
   return new PGContactDataSource(db);
 }
+const auth = () => {
+  return (req: Request, res: Response, next: NextFunction) => {};
+};
 
 (async () => {
   const dataSource = await getPGDS();
@@ -46,7 +50,7 @@ async function getPGDS() {
     new CreateContact(new ContactRepositoryImpl(dataSource))
   );
 
-  server.use("/contact", contactRouter);
+  server.use("/contact", auth, contactRouter);
 
   server.listen(4000, () => console.log("Running on http://localhost:4000"));
 })();
