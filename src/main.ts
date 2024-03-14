@@ -7,11 +7,7 @@ import { ContactRequestModel } from "./domain/models/contact";
 import { ContactRepositoryImpl } from "./domain/repositories/contact-repository";
 import { CreateContact } from "./domain/use-cases/contact/create-contact";
 import { GetAllContacts } from "./domain/use-cases/contact/get-all-contacts";
-import ContactRouter, {
-  Auth,
-  ContactsMiddleware,
-  Validation,
-} from "./presentation/routers/contact-router";
+import ContactRouter from "./presentation/routers/contact-router";
 import server from "./server";
 async function getMongoDS() {
   const client: MongoClient = new MongoClient(
@@ -51,5 +47,6 @@ async function getPGDS() {
   );
 
   server.use("/contact", contactRouter);
+
   server.listen(4000, () => console.log("Running on http://localhost:4000"));
 })();

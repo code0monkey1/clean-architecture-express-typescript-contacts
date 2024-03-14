@@ -5,9 +5,7 @@ import {
   ContactRequestModel,
   ContactResponseModel,
 } from "../../../src/domain/models/contact";
-import ContactRouter, {
-  Middleware,
-} from "../../../src/presentation/routers/contact-router";
+import ContactRouter from "../../../src/presentation/routers/contact-router";
 import server from "../../../src/server";
 
 class MockGetAllContactsUseCase implements GetAllContactsUseCase {
@@ -18,14 +16,6 @@ class MockGetAllContactsUseCase implements GetAllContactsUseCase {
 
 class MockCreateContactUseCase implements CreateContactUseCase {
   execute(contact: ContactRequestModel): void {
-    throw new Error("Method not implemented.");
-  }
-}
-class MockContactsMiddleware implements Middleware {
-  isValid(data: unknown): ContactRequestModel | Error {
-    throw new Error("Method not implemented.");
-  }
-  isAdmin(contact: ContactRequestModel): boolean {
     throw new Error("Method not implemented.");
   }
 }
