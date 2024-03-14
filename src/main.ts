@@ -38,11 +38,13 @@ async function getPGDS() {
   });
   return new PGContactDataSource(db);
 }
-const auth = () => (req: Request, res: Response, next: NextFunction) => {
+const auth = () => (req: Request, _res: Response, next: NextFunction) => {
   const requestBody = {
-    body,
-    postById,
+    body: req.body,
+    postById: req.ip,
   };
+
+  next();
 };
 
 (async () => {
