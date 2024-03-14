@@ -1,17 +1,16 @@
-import express, { NextFunction, Request, Response } from 'express';
-import { CreateContactUseCase } from '../../domain/interfaces/use-cases/create-contact-use-case';
-import { GetAllContactsUseCase } from '../../domain/interfaces/use-cases/get-all-contacts-use-case';
-import { ContactRequestModel } from '../../domain/models/contact';
+import express, { NextFunction, Request, Response } from "express";
+import { CreateContactUseCase } from "../../domain/interfaces/use-cases/create-contact-use-case";
+import { GetAllContactsUseCase } from "../../domain/interfaces/use-cases/get-all-contacts-use-case";
+import { ContactRequestModel } from "../../domain/models/contact";
 
 export default function ContactsRouter(
   getAllContactsUseCase: GetAllContactsUseCase,
-  createContactUseCase: CreateContactUseCase,
-  contactsMiddleware: Middleware
+  createContactUseCase: CreateContactUseCase
 ) {
   const router = express.Router();
 
   router.get(
-    '/',
+    "/",
     async (req: Request, res: Response, next: NextFunction) => {
       //[+] middleware
       try {
@@ -26,19 +25,19 @@ export default function ContactsRouter(
         const contacts = await getAllContactsUseCase.execute();
         res.send(contacts);
       } catch (err) {
-        res.status(500).send({ message: 'Error fetching data' });
+        res.status(500).send({ message: "Error fetching data" });
       }
     }
   );
 
-  router.post('/', async (req: Request, res: Response) => {
+  router.post("/", async (req: Request, res: Response) => {
     try {
       await createContactUseCase.execute(req.body);
       res.statusCode = 201;
-      res.json({ message: 'Created' });
+      res.json({ message: "Created" });
     } catch (err) {
       console.log(err.message);
-      res.status(500).send({ message: 'Error saving data' });
+      res.status(500).send({ message: "Error saving data" });
     }
   });
 
