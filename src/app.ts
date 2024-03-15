@@ -10,9 +10,10 @@ import { GetAllContacts } from "./domain/use-cases/contact/get-all-contacts";
 import ContactRouter from "./presentation/routers/contact-router";
 import express from "express";
 import { Response, Request, NextFunction } from "express";
-import "express-async-errors";
 
 const app = express();
+
+import "express-async-errors";
 
 async function getMongoDS() {
   const client: MongoClient = new MongoClient(
@@ -42,16 +43,14 @@ async function getPGDS() {
   });
   return new PGContactDataSource(db);
 }
-// const auth = () => (req: Request, _res: Response, next: NextFunction) => {
-//   const requestBody = {
-//     body: req.body,
-//     postById: req.ip,
-//   };
+const auth = () => (req: Request, _res: Response, next: NextFunction) => {
+  const requestBody = {
+    body: req.body,
+    postById: req.ip,
+  };
 
-//   next();
-// };
-
-app.use(express.json());
+  // next();
+};
 
 (async () => {
   const dataSource = await getPGDS();
@@ -61,7 +60,7 @@ app.use(express.json());
     new CreateContact(new ContactRepositoryImpl(dataSource))
   );
 
-  app.use("/contact", contactRouter);
+  app.use("/contact", [auth], contactRouter);
 })();
 
 export default app;
