@@ -1,6 +1,7 @@
 import express, { Request, Response } from "express";
 import { CreateContactUseCase } from "../../domain/interfaces/use-cases/contacts/create-contact-use-case";
 import { GetAllContactsUseCase } from "../../domain/interfaces/use-cases/contacts/get-all-contacts-use-case";
+import logger from "../../config/logger";
 
 export default function ContactsRouter(
   getAllContactsUseCase: GetAllContactsUseCase,
@@ -23,7 +24,7 @@ export default function ContactsRouter(
       res.statusCode = 201;
       res.json({ message: "Created" });
     } catch (err) {
-      console.log(err.message);
+      logger.error(err.message);
       res.status(500).send({ message: "Error saving data" });
     }
   });
