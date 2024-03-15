@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest --watchAll --collectCoverage",
+    "test": "NODE_ENV=test jest --watchAll --collectCoverage",
+    "dev": "NODE_ENV=dev nodemon  src/server.ts",
     "dev:build": "tsc",
     "dev:serve": "nodemon -e js -w lib lib/main.js"
   },
