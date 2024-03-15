@@ -1,12 +1,15 @@
 import express from "express";
+import { Config } from "./config";
 import logger from "./config/logger";
 const server = express();
 
 server.use(express.json());
-const PORT = 3000;
 
-server.listen(PORT, () => {
-  logger.info("server listening on port ", PORT);
-});
+if (Config.NODE_ENV !== "test") {
+  const PORT = Config.PORT;
 
+  server.listen(PORT, () => {
+    logger.info("Server listening on port", PORT);
+  });
+}
 export default server;
