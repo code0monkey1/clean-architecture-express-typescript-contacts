@@ -14,6 +14,7 @@ import { Response, Request, NextFunction } from "express";
 const app = express();
 
 import "express-async-errors";
+import { ContactDataSource } from "./data/interfaces/data-sources/contact-data-source";
 
 async function getMongoDS() {
   const client: MongoClient = new MongoClient(
@@ -52,13 +53,16 @@ const auth = () => (req: Request, _res: Response, next: NextFunction) => {
   // next();
 };
 
-(async () => {
-  const dataSource = await getPGDS();
-
-  const contactRouter = ContactRouter(
+const contactsRouterFactory = (dataSource: ContactDataSource) =>
+  ContactRouter(
     new GetAllContacts(new ContactRepositoryImpl(dataSource)),
     new CreateContact(new ContactRepositoryImpl(dataSource))
   );
+
+(async () => {
+  const dataSource = await getPGDS();
+
+  const contactRouter = contactsRouterFactory(dataSource);
 
   app.use("/contact", [auth], contactRouter);
 })();
