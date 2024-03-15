@@ -1,12 +1,13 @@
 import request from "supertest";
-import { CreateContactUseCase } from "../../../src/domain/interfaces/use-cases/create-contact-use-case";
-import { GetAllContactsUseCase } from "../../../src/domain/interfaces/use-cases/get-all-contacts-use-case";
+import { CreateContactUseCase } from "../../../src/domain/interfaces/use-cases/contacts/create-contact-use-case";
+
 import {
   ContactRequestModel,
   ContactResponseModel,
 } from "../../../src/domain/models/contact";
 import ContactRouter from "../../../src/presentation/routers/contact-router";
 import server from "../../../src/server";
+import { GetAllContactsUseCase } from "../../../src/domain/interfaces/use-cases/contacts/get-all-contacts-use-case";
 
 class MockGetAllContactsUseCase implements GetAllContactsUseCase {
   execute(): Promise<ContactResponseModel[]> {
