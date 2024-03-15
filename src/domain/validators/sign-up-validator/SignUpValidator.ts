@@ -1,7 +1,13 @@
-import { Validation } from "../interfaces/validators/Validation";
+import { Validation } from "../../interfaces/validators/Validation";
+import { SignUpSchema } from "./SignUpValidatorSchema";
 
 export class SignUpValidator implements Validation {
-  validate(): Promise<Error | null> {
-    throw new Error("Method not implemented.");
+  validate(signUpData: unknown): Error | null {
+    try {
+      SignUpSchema.parse(signUpData);
+      return null;
+    } catch (e) {
+      return new Error();
+    }
   }
 }
