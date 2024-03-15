@@ -44,7 +44,7 @@ const auth = () => (req: Request, _res: Response, next: NextFunction) => {
     postById: req.ip,
   };
 
-  next();
+  // next();
 };
 
 (async () => {
