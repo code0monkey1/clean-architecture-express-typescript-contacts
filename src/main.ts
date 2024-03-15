@@ -55,7 +55,7 @@ const auth = () => (req: Request, _res: Response, next: NextFunction) => {
     new CreateContact(new ContactRepositoryImpl(dataSource))
   );
 
-  server.use("/contact", auth, contactRouter);
+  server.use("/contact", [auth], contactRouter);
 
   server.listen(4000, () => console.log("Running on http://localhost:4000"));
 })();

@@ -7,4 +7,4 @@ export const SignUpSchema = z.object({
   email: z.string().email(),
 });
 
-export type ZUser = z.infer<typeof SignUpSchema>;
+export type SignUpUser = z.infer<typeof SignUpSchema>;
