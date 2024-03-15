@@ -7,7 +7,7 @@ export class SignUpValidator implements Validation {
       SignUpSchema.parse(signUpData);
       return null;
     } catch (e) {
-      return new Error();
+      return new Error("SignUpSchemaError");
     }
   }
 }
