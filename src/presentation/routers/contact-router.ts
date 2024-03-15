@@ -9,7 +9,7 @@ export default function ContactsRouter(
 ) {
   const router = express.Router();
 
-  router.get("/", async (req: Request, res: Response) => {
+  router.get("/", async (_req: Request, res: Response) => {
     try {
       const contacts = await getAllContactsUseCase.execute();
       res.send(contacts);
