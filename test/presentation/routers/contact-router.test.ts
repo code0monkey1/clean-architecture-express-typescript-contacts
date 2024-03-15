@@ -6,7 +6,7 @@ import {
   ContactResponseModel,
 } from "../../../src/domain/models/contact";
 import ContactRouter from "../../../src/presentation/routers/contact-router";
-import server from "../../../src/server";
+import app from "../../../src/app";
 import { GetAllContactsUseCase } from "../../../src/domain/interfaces/use-cases/contacts/get-all-contacts-use-case";
 
 class MockGetAllContactsUseCase implements GetAllContactsUseCase {
@@ -29,10 +29,10 @@ describe("Contact Router", () => {
     mockGetAllContactsUseCase = new MockGetAllContactsUseCase();
     mockCreateContactUseCase = new MockCreateContactUseCase();
 
-    server.use(
-      "/contact",
-      ContactRouter(mockGetAllContactsUseCase, mockCreateContactUseCase)
-    );
+    // app.use(
+    //   "/contact",
+    //   ContactRouter(mockGetAllContactsUseCase, mockCreateContactUseCase)
+    // );
   });
 
   beforeEach(() => {
@@ -46,7 +46,7 @@ describe("Contact Router", () => {
         .spyOn(mockGetAllContactsUseCase, "execute")
         .mockImplementation(() => Promise.resolve(ExpectedData));
 
-      const response = await request(server).get("/contact");
+      const response = await request(app).get("/contact");
 
       expect(response.status).toBe(200);
       expect(mockGetAllContactsUseCase.execute).toBeCalledTimes(1);
@@ -57,7 +57,7 @@ describe("Contact Router", () => {
       jest
         .spyOn(mockGetAllContactsUseCase, "execute")
         .mockImplementation(() => Promise.reject(Error()));
-      const response = await request(server).get("/contact");
+      const response = await request(app).get("/contact");
       expect(response.status).toBe(500);
       expect(response.body).toStrictEqual({ message: "Error fetching data" });
     });
@@ -74,7 +74,7 @@ describe("Contact Router", () => {
       jest
         .spyOn(mockCreateContactUseCase, "execute")
         .mockImplementation(() => Promise.resolve(true));
-      const response = await request(server).post("/contact").send(InputData);
+      const response = await request(app).post("/contact").send(InputData);
       expect(response.status).toBe(201);
     });
 
@@ -89,7 +89,7 @@ describe("Contact Router", () => {
       jest
         .spyOn(mockCreateContactUseCase, "execute")
         .mockImplementation(() => Promise.reject(Error()));
-      const response = await request(server).post("/contact").send(InputData);
+      const response = await request(app).post("/contact").send(InputData);
       expect(response.status).toBe(500);
     });
   });

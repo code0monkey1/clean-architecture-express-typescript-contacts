@@ -8,8 +8,12 @@ import { ContactRepositoryImpl } from "./domain/repositories/contact-repository"
 import { CreateContact } from "./domain/use-cases/contact/create-contact";
 import { GetAllContacts } from "./domain/use-cases/contact/get-all-contacts";
 import ContactRouter from "./presentation/routers/contact-router";
-import server from "./server";
+import express from "express";
 import { Response, Request, NextFunction } from "express";
+import "express-async-errors";
+
+const app = express();
+
 async function getMongoDS() {
   const client: MongoClient = new MongoClient(
     "mongodb://localhost:27017/contacts"
@@ -38,14 +42,16 @@ async function getPGDS() {
   });
   return new PGContactDataSource(db);
 }
-const auth = () => (req: Request, _res: Response, next: NextFunction) => {
-  const requestBody = {
-    body: req.body,
-    postById: req.ip,
-  };
+// const auth = () => (req: Request, _res: Response, next: NextFunction) => {
+//   const requestBody = {
+//     body: req.body,
+//     postById: req.ip,
+//   };
 
-  // next();
-};
+//   next();
+// };
+
+app.use(express.json());
 
 (async () => {
   const dataSource = await getPGDS();
@@ -55,7 +61,7 @@ const auth = () => (req: Request, _res: Response, next: NextFunction) => {
     new CreateContact(new ContactRepositoryImpl(dataSource))
   );
 
-  server.use("/contact", [auth], contactRouter);
-
-  server.listen(4000, () => console.log("Running on http://localhost:4000"));
+  app.use("/contact", contactRouter);
 })();
+
+export default app;
